@@ -42,17 +42,17 @@ class exports.UsersTest extends FakeAppTest
         done 4
 
   "test getting a range": ( done ) ->
-    # create 51 users
+    # create 21 users
     fixtures = []
 
-    for i in [ 0..50 ]
+    for i in [ 0..20 ]
       do ( i ) =>
         fixtures.push ( cb ) =>
           @model.create "user_#{i}", email: "#{i}@example.com", cb
 
     async.series fixtures, ( err, newUsers ) =>
       @isUndefined err
-      @equal newUsers.length, 51
+      @equal newUsers.length, 21
 
       @model.range 0, 9, ( err, userIds ) =>
         @isNull err
@@ -62,11 +62,11 @@ class exports.UsersTest extends FakeAppTest
         @equal userIds[5], "user_5"
         @equal userIds[9], "user_9"
 
-        @model.range 49, -1, ( err, results ) =>
+        @model.range 19, -1, ( err, results ) =>
           @isNull err
           @equal results.length, 2
 
-          @deepEqual results, [ "user_49", "user_50" ]
+          @deepEqual results, [ "user_19", "user_20" ]
 
           done 10
 
