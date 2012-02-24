@@ -50,3 +50,28 @@ class exports.UserControllerTest extends ApiaxleTest
           @isNull err
 
           done 6
+
+  "test double POST a valid user": ( done ) ->
+    options =
+      path: "/v1/user/this_is_bob"
+      headers:
+        "Content-Type": "application/json"
+      data: JSON.stringify
+        email: "this_is_bob@example.com"
+
+    @POST options, ( err, res ) =>
+      @isNull err
+
+      res.parseJson ( json ) =>
+        @isUndefined json["error"]
+        @equal json.email, "this_is_bob@example.com"
+
+        # another post
+        @POST options, ( err, res ) =>
+          @isNull err
+
+          res.parseJson ( json ) =>
+            @ok json.error
+            @equal json.error.status, 400
+
+            done 6

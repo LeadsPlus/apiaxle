@@ -22,11 +22,13 @@ class exports.CreateUser extends ApiaxleController
   path: -> "/v1/user/:user"
 
   execute: ( req, res, next ) ->
+    newUser = req.params.user
+
     # error if it exists
     if req.requestedUser?
-      return next new AlreadyExists "#{ user } already exists."
+      return next new AlreadyExists "#{ newUser } already exists."
 
-    @app.model( "users" ).create req.params.user, req.body, ( err, newObj ) ->
+    @app.model( "users" ).create newUser, req.body, ( err, newObj ) ->
       return next err if err
 
-      res.json newObj
+      return res.json newObj
