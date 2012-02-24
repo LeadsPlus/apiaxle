@@ -16,6 +16,7 @@ class exports.Users extends Redis
         type: "string"
         required: true
         pattern: /.+?@.+?\..{2,5}$/
+        docs: "The email address to associate with the user."
 
   addKey: ( userName, key, cb ) ->
     keyModel = @application.model "apiKey"

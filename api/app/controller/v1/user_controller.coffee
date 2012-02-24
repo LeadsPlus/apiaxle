@@ -21,6 +21,18 @@ class exports.CreateUser extends ApiaxleController
 
   path: -> "/v1/user/:user"
 
+  docs: ->
+    """Add a new user with username `:username`.
+
+    ### Fields supported:
+
+    #{ @app.model( 'api' ).getValidationDocs() }
+
+    ### Returns:
+
+    * The inserted structure (including the new timestamp fields).
+    """
+
   execute: ( req, res, next ) ->
     newUser = req.params.user
 
