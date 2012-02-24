@@ -26,4 +26,27 @@ class exports.UserControllerTest extends ApiaxleTest
           @ok dbUser.createdAt
           @equal dbUser.email, "this_is_bob@example.com"
 
-          done 3
+          done 5
+
+  "test POST an invalid user (empty email)": ( done ) ->
+    options =
+      path: "/v1/user/this_is_bob"
+      headers:
+        "Content-Type": "application/json"
+      data: JSON.stringify
+        email: ""
+
+    @POST options, ( err, res ) =>
+      @isNull err
+
+      res.parseJson ( json ) =>
+        @ok json.error
+        @equal json.error.status, 400
+        @match json.error.message, /email/
+
+        # check it went in
+        @application.model( "users" ).find "this_is_bob", ( err, dbUser ) =>
+          @isNull dbUser
+          @isNull err
+
+          done 6
