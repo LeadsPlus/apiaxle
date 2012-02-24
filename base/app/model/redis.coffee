@@ -2,8 +2,6 @@ async = require "async"
 _ = require "underscore"
 validate = require "../../lib/validate"
 events = require "events"
-
-
 redis = require "redis"
 
 class Redis
